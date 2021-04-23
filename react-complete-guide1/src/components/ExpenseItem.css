@@ -1,0 +1,15 @@
+.expense-item {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: small;
+    display: flex;
+    flex-direction: row;
+    box-shadow: aqua;
+}
+
+.expense-item__title {
+
+}
+
+.expense-item__price {
+    
+}
