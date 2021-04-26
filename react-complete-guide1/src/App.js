@@ -1,7 +1,8 @@
 import "./App.css";
 import NewExpense from "./components/NewExpense/NewExpense";
 import Expenses from "./components/Expenses/Expenses";
-import Wrapper from "./components/Helpers/Wrapper"
+import Wrapper from "./components/Helpers/Wrapper";
+import Foobar from "./components/Examples/Foobar";
 
 function App() {
   const expenses = [
@@ -17,6 +18,7 @@ function App() {
       {/* <header className="App-header">
         {console.log(expenses)}
       </header> */}
+      <Foobar />
     </Wrapper>
   );
 }

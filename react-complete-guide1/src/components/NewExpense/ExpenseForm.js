@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import "./ExpenseForm.css"
+import ReactDOM from "react-dom";
+import "./ExpenseForm.css";
+import Backdrop from "../Shared/Backdrop";
+import ModalOverlay from "../Shared/ModalOverlay";
 
 const ExpenseForm = () => {
   // const [enteredTitle, setEnteredTitle] = useState("");
@@ -18,12 +21,12 @@ const ExpenseForm = () => {
     //   ...inputData,
     //   enteredTitle: event.target.value,
     // });
-    setInputData((prevState)=>{
+    setInputData((prevState) => {
       return {
         ...prevState,
         enteredTitle: event.target.value,
-      }
-    })
+      };
+    });
   };
 
   const amountChangeHandler = (event) => {
@@ -32,12 +35,12 @@ const ExpenseForm = () => {
     //   ...inputData,
     //   enteredAmount: event.target.value,
     // });
-    setInputData((prevState)=>{
+    setInputData((prevState) => {
       return {
         ...prevState,
         enteredAmount: event.target.value,
-      }
-    })
+      };
+    });
   };
 
   const dateChangeHandler = (event) => {
@@ -46,12 +49,12 @@ const ExpenseForm = () => {
     //   ...inputData,
     //   enteredDate: event.target.value,
     // });
-    setInputData((prevState)=>{
+    setInputData((prevState) => {
       return {
         ...prevState,
         enteredDate: event.target.value,
-      }
-    })
+      };
+    });
   };
 
   const userInput = {
@@ -71,40 +74,47 @@ const ExpenseForm = () => {
   }
 
   return (
-    <form onSubmit={submitHandler}>
-      <div className="new-expense__controls">
-        <div className="new-expense__control">
-          <label>Title</label>
-          <input
-            type="text"
-            placeholder="Enter title"
-            onChange={titleChangeHandler}
-          />
+    <div>
+      {ReactDOM.createPortal(
+        <Backdrop />,
+        document.getElementById("backdrop-root")
+      )}
+      {ReactDOM.createPortal(<ModalOverlay />, document.getElementById("modal-root"))}
+      <form onSubmit={submitHandler}>
+        <div className="new-expense__controls">
+          <div className="new-expense__control">
+            <label>Title</label>
+            <input
+              type="text"
+              placeholder="Enter title"
+              onChange={titleChangeHandler}
+            />
+          </div>
+          <div className="new-expense__control">
+            <label>Amount</label>
+            <input
+              type="number"
+              min={0.01}
+              max={1000}
+              placeholder="Enter amount"
+              onChange={amountChangeHandler}
+            />
+          </div>
+          <div className="new-expense__control">
+            <label>Date</label>
+            <input
+              type="date"
+              min="2019-01-01"
+              max="2022-12-31"
+              onChange={dateChangeHandler}
+            />
+          </div>
+          <div className="new-expense__actions">
+            <button type="submit">Add Expense</button>
+          </div>
         </div>
-        <div className="new-expense__control">
-          <label>Amount</label>
-          <input
-            type="number"
-            min={0.01}
-            max={1000}
-            placeholder="Enter amount"
-            onChange={amountChangeHandler}
-          />
-        </div>
-        <div className="new-expense__control">
-          <label>Date</label>
-          <input
-            type="date"
-            min="2019-01-01"
-            max="2022-12-31"
-            onChange={dateChangeHandler}
-          />
-        </div>
-        <div className="new-expense__actions">
-          <button type="submit">Add Expense</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 
