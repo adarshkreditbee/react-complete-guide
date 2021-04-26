@@ -1,6 +1,7 @@
 import "./App.css";
 import NewExpense from "./components/NewExpense/NewExpense";
 import Expenses from "./components/Expenses/Expenses";
+import Wrapper from "./components/Helpers/Wrapper"
 
 function App() {
   const expenses = [
@@ -10,13 +11,13 @@ function App() {
   ];
 
   return (
-    <div className="App">
+    <Wrapper>
       <NewExpense />
       <Expenses {...{ expenses }} />
       {/* <header className="App-header">
         {console.log(expenses)}
       </header> */}
-    </div>
+    </Wrapper>
   );
 }
 
