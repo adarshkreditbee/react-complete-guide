@@ -1,65 +1,84 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import Board from "./components/Board";
 
-class Square extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: null,
-    };
-  }
+export default function Square(props) {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     value: null,
+  //   };
+  // }
 
-  render() {
-    return (
-      <button className="square" onClick={() => this.setState({ value: "X" })}>
-        {this.state.value}
-      </button>
-    );
-  }
-}
-
-class Board extends React.Component {
-  renderSquare(i) {
-    return <Square value={i} />;
-  }
-
-  render() {
-    const status = "Next player: X";
-
-    return (
-      <div>
-        <div className="status">{status}</div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
-  }
+  return (
+    <button
+      className="square"
+      onClick={() =>
+        // this.setState({ value: "X" })
+        props.onClick()
+      }
+    >
+      {props.value}
+    </button>
+  );
 }
 
 class Game extends React.Component {
+  state = {
+    moveCount: 0,
+    moves: [
+      {
+        squares: Array(9).fill(null),
+      },
+    ],
+  };
+
+  updateMoveCount = (moveCount) => {
+    this.setState({
+      moveCount: moveCount,
+    });
+  };
+
+  updateMoves = (move) => {
+    this.setState({
+      moves: [...this.state.moves, move],
+    });
+  };
+
+  handleHistoryClick(position) {
+    console.log(this.state.moves[position].squares);
+    new Board().handleHistoryClick(this.state.moves[position]["squares"]);
+  }
+
   render() {
     return (
       <div className="game">
         <div className="game-board">
-          <Board />
+          <Board
+            {...this.state}
+            updateMoveCount={this.updateMoveCount}
+            updateMoves={this.updateMoves}
+          />
         </div>
+
         <div className="game-info">
           <div>{/* status */}</div>
           <ol>{/* TODO */}</ol>
+        </div>
+        <div id="history">
+          {[...Array(this.state.moveCount)].map((x, i) => {
+            return (
+              <button
+                key={i}
+                onClick={() => {
+                  this.handleHistoryClick(i);
+                }}
+              >
+                Go Back to Move # {i}
+              </button>
+            );
+          })}
         </div>
       </div>
     );
